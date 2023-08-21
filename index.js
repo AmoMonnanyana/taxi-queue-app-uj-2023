@@ -10,7 +10,7 @@ app.use(express.static('public'))
 // add middleware to make post routes work
 app.use(express.json());
 //await taxiQueueLength()
-await leaveQueue()
+//await leaveQueue()
 //await joinTaxiQueue()
 //await taxiDepart()
 const result = await getQueue()
@@ -39,12 +39,7 @@ app.post('/api/passenger/join', async (req, res) => {
 
 
 app.post('/api/passenger/leave', async (req, res) => {
-    const remainingQueqe = await queueLength()
-
-    if (remainingQueqe > 0) {
         await leaveQueue()
-    }
-    
     res.json({
         message : 'leave queue'
     })
@@ -60,12 +55,8 @@ app.post('/api/taxi/join', async (req, res) => {
 
 // Note there needs to be at least 12 people in the queue for the taxi to depart
 app.post('/api/taxi/depart', async (req, res) => {
-    const remainingQueqe = await getQueue()
-
-    if(remainingQueqe.taxi_queue_count > 0 && remainingQueqe.passenger_queue_count >= 12 ) {
-        await taxiDepart()
-    }
     
+        await taxiDepart()
     res.json({
         message : 'taxi depart from queue'
     })
